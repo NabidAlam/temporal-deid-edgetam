@@ -1,0 +1,25 @@
+name: edgetam_only_baseline
+mode: edgetam_only
+inputs:
+  # DAVIS (diverse motion/occlusion/backgrounds)
+  # Selected for diversity:
+  # - bus: Static camera, vehicle scene (baseline)
+  # - dance-twirl: Fast motion, rotation (motion challenge)
+  # - walking: Linear motion (common scenario)
+  # - crossing: Occlusion/interaction (interaction challenge)
+  - data/input/davis2017_restructured/bus/video.mp4
+  - data/input/davis2017_restructured/dance-twirl/video.mp4
+  - data/input/davis2017_restructured/walking/video.mp4
+  - data/input/davis2017_restructured/crossing/video.mp4
+  # - data/input/davis2017_restructured/car-roundabout/video.mp4
+  # - data/input/davis2017_restructured/india/video.mp4  # Uncomment for multi-person
+  # TED/domain clips (talking head, static background)
+  - data/input/ted/video4.mp4
+output_root: outputs/experiments/baselines
+params:
+  device: cuda
+  edgetam_checkpoint: data/models/edgetam/edgetam.pt
+  edgetam_config: data/models/edgetam/edgetam.yaml
+  debug: false
+
+

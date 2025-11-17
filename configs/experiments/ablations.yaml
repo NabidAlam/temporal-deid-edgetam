@@ -1,0 +1,45 @@
+name: hybrid_ablations
+mode: hybrid
+inputs:
+  # Keep set small but diverse for repeated sweeps
+  # Ablation studies run many variants, so use subset for speed
+  # Focus on: static, motion, linear motion, occlusion, talking head
+  - data/input/davis2017_restructured/bus/video.mp4        # Static baseline
+  - data/input/davis2017_restructured/dance-twirl/video.mp4 # Motion challenge (rotation)
+  - data/input/davis2017_restructured/walking/video.mp4    # Linear motion (common scenario)
+  - data/input/davis2017_restructured/crossing/video.mp4   # Occlusion/interaction
+  # - data/input/davis2017_restructured/india/video.mp4    # Uncomment for multi-person (if needed)
+  - data/input/ted/video4.mp4                               # Talking head
+output_root: outputs/experiments/ablations
+runs:
+  # trackers
+  - params: { max_trackers: 1 }
+  - params: { max_trackers: 4 }
+  - params: { max_trackers: 8 }
+  - params: { max_trackers: 10 }
+  # re-detection interval
+  - params: { re_detection_interval: 30 }
+  - params: { re_detection_interval: 60 }
+  - params: { re_detection_interval: 90 }
+  # Note: deid_mode parameter not currently supported in CLI
+  # MaskAnyone de-identification mode is fixed in the pipeline
+  # - params: { deid_mode: blur }
+  # - params: { deid_mode: pixelate }
+  # - params: { deid_mode: contour }
+  # RF-DETR size
+  - params: { rf_detr_size: nano }
+  - params: { rf_detr_size: small }
+  - params: { rf_detr_size: medium }
+  - params: { rf_detr_size: large }
+
+defaults:
+  rf_detr_size: small
+  rf_detr_conf: 0.4
+  re_detection_interval: 60
+  max_trackers: 8
+  device: cuda
+  edgetam_checkpoint: data/models/edgetam/edgetam.pt
+  edgetam_config: data/models/edgetam/edgetam.yaml
+  debug: false
+
+
